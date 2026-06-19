@@ -1,0 +1,48 @@
+{
+  "annotations": {
+    "changelogDate": "20260619153458"
+  },
+  "applications": ["playmatch"],
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "contenido",
+      "fieldType": "TextBlob",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "fechaPublicacion",
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "estado",
+      "fieldType": "EstadoGeneral",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "ACTIVO,INACTIVO"
+    }
+  ],
+  "name": "MensajeGrupo",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityField": "nombre",
+      "otherEntityName": "grupo",
+      "otherEntityRelationshipName": "mensajes",
+      "relationshipName": "grupo",
+      "relationshipSide": "right",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required"
+    },
+    {
+      "otherEntityName": "cuenta",
+      "otherEntityRelationshipName": "mensajes",
+      "relationshipName": "autor",
+      "relationshipSide": "right",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

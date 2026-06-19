@@ -1,0 +1,113 @@
+{
+  "annotations": {
+    "changelogDate": "20260619152558"
+  },
+  "applications": ["playmatch"],
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "fechaNacimiento",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "numeroDocumento",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "unique", "maxlength"],
+      "fieldValidateRulesMaxlength": "20"
+    },
+    {
+      "fieldName": "correo",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "unique", "maxlength"],
+      "fieldValidateRulesMaxlength": "255"
+    },
+    {
+      "fieldName": "telefono",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "maxlength"],
+      "fieldValidateRulesMaxlength": "20"
+    },
+    {
+      "fieldName": "direccion",
+      "fieldType": "String",
+      "fieldValidateRules": ["maxlength"],
+      "fieldValidateRulesMaxlength": "200"
+    },
+    {
+      "fieldName": "foto",
+      "fieldType": "ImageBlob"
+    },
+    {
+      "fieldName": "estado",
+      "fieldType": "EstadoGeneral",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "ACTIVO,INACTIVO"
+    }
+  ],
+  "name": "Cuenta",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityField": "login",
+      "otherEntityName": "user",
+      "relationshipName": "user",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-one",
+      "relationshipValidateRules": "required",
+      "relationshipWithBuiltInEntity": true
+    },
+    {
+      "otherEntityName": "miembroGrupo",
+      "otherEntityRelationshipName": "usuario",
+      "relationshipName": "grupos",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "inscripcion",
+      "otherEntityRelationshipName": "usuario",
+      "relationshipName": "inscripciones",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "mensajeGrupo",
+      "otherEntityRelationshipName": "autor",
+      "relationshipName": "mensajes",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "calificacion",
+      "otherEntityRelationshipName": "autor",
+      "relationshipName": "calificaciones",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "noticia",
+      "otherEntityRelationshipName": "autor",
+      "relationshipName": "noticias",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "notificacion",
+      "otherEntityRelationshipName": "destinatario",
+      "relationshipName": "notificaciones",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityField": "nombreDocumento",
+      "otherEntityName": "tipoDocumento",
+      "otherEntityRelationshipName": "cuentas",
+      "relationshipName": "tipoDocumento",
+      "relationshipSide": "right",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

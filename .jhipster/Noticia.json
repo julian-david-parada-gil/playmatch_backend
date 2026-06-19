@@ -1,0 +1,51 @@
+{
+  "annotations": {
+    "changelogDate": "20260619153758"
+  },
+  "applications": ["playmatch"],
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "titulo",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "maxlength"],
+      "fieldValidateRulesMaxlength": "150"
+    },
+    {
+      "fieldName": "contenido",
+      "fieldType": "TextBlob",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "tipo",
+      "fieldType": "TipoNoticia",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "NOTICIA,CONVOCATORIA,ANUNCIO"
+    },
+    {
+      "fieldName": "fechaPublicacion",
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "estado",
+      "fieldType": "EstadoGeneral",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "ACTIVO,INACTIVO"
+    }
+  ],
+  "name": "Noticia",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityName": "cuenta",
+      "otherEntityRelationshipName": "noticias",
+      "relationshipName": "autor",
+      "relationshipSide": "right",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

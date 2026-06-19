@@ -1,0 +1,52 @@
+{
+  "annotations": {
+    "changelogDate": "20260619152758"
+  },
+  "applications": ["playmatch"],
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "nombre",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "unique", "maxlength"],
+      "fieldValidateRulesMaxlength": "100"
+    },
+    {
+      "fieldName": "modalidad",
+      "fieldType": "ModalidadDeporte",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "TRESXTRES,CINCOXCINCO,ONCEXONCE"
+    },
+    {
+      "fieldName": "descripcion",
+      "fieldType": "TextBlob"
+    },
+    {
+      "fieldName": "fechaCreacion",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "fechaActualizacion",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "estado",
+      "fieldType": "EstadoGeneral",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "ACTIVO,INACTIVO"
+    }
+  ],
+  "name": "Categoria",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityName": "torneo",
+      "otherEntityRelationshipName": "categoria",
+      "relationshipName": "torneos",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

@@ -1,0 +1,121 @@
+{
+  "annotations": {
+    "changelogDate": "20260619152858"
+  },
+  "applications": ["playmatch"],
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "nombre",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "maxlength"],
+      "fieldValidateRulesMaxlength": "120"
+    },
+    {
+      "fieldName": "descripcion",
+      "fieldType": "TextBlob"
+    },
+    {
+      "fieldName": "fechaInicio",
+      "fieldType": "LocalDate",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "fechaFin",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "horaInicio",
+      "fieldType": "ZonedDateTime"
+    },
+    {
+      "fieldName": "ubicacion",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "maxlength"],
+      "fieldValidateRulesMaxlength": "200"
+    },
+    {
+      "fieldName": "reglamento",
+      "fieldType": "Blob"
+    },
+    {
+      "fieldName": "cupoMaximoEquipos",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "cupoMaximoJugadores",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "estado",
+      "fieldType": "EstadoTorneo",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "ACTIVO,FINALIZADO,CANCELADO"
+    }
+  ],
+  "name": "Torneo",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityName": "inscripcion",
+      "otherEntityRelationshipName": "torneo",
+      "relationshipName": "inscripciones",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "partido",
+      "otherEntityRelationshipName": "torneo",
+      "relationshipName": "partidos",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "tablaPosicion",
+      "otherEntityRelationshipName": "torneo",
+      "relationshipName": "tablaPosiciones",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "encuesta",
+      "otherEntityRelationshipName": "torneo",
+      "relationshipName": "encuestas",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "calificacion",
+      "otherEntityRelationshipName": "torneo",
+      "relationshipName": "calificaciones",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "convocatoria",
+      "otherEntityRelationshipName": "torneo",
+      "relationshipName": "convocatorias",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "calendarioEvento",
+      "otherEntityRelationshipName": "torneo",
+      "relationshipName": "eventosCalendario",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityField": "nombre",
+      "otherEntityName": "categoria",
+      "otherEntityRelationshipName": "torneos",
+      "relationshipName": "categoria",
+      "relationshipSide": "right",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

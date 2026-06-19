@@ -1,0 +1,90 @@
+{
+  "annotations": {
+    "changelogDate": "20260619153558"
+  },
+  "applications": ["playmatch"],
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "titulo",
+      "fieldType": "TextBlob",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "opcion1",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "maxlength"],
+      "fieldValidateRulesMaxlength": "255"
+    },
+    {
+      "fieldName": "opcion2",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "maxlength"],
+      "fieldValidateRulesMaxlength": "255"
+    },
+    {
+      "fieldName": "opcion3",
+      "fieldType": "String",
+      "fieldValidateRules": ["maxlength"],
+      "fieldValidateRulesMaxlength": "255"
+    },
+    {
+      "fieldName": "opcion4",
+      "fieldType": "String",
+      "fieldValidateRules": ["maxlength"],
+      "fieldValidateRulesMaxlength": "255"
+    },
+    {
+      "fieldName": "votosOpcion1",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "votosOpcion2",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "votosOpcion3",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "votosOpcion4",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "fechaInicio",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "fechaFin",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "estado",
+      "fieldType": "EstadoEncuesta",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "ACTIVA,INACTIVA"
+    }
+  ],
+  "name": "Encuesta",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityField": "nombre",
+      "otherEntityName": "grupo",
+      "otherEntityRelationshipName": "encuestas",
+      "relationshipName": "grupo",
+      "relationshipSide": "right",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityField": "nombre",
+      "otherEntityName": "torneo",
+      "otherEntityRelationshipName": "encuestas",
+      "relationshipName": "torneo",
+      "relationshipSide": "right",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

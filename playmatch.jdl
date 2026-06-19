@@ -1,0 +1,271 @@
+application {
+  config {
+    baseName playmatch
+    applicationType monolith
+    packageName com.mycompany.playmatch
+    authenticationType jwt
+    databaseType mongodb
+    prodDatabaseType mongodb
+    cacheProvider no
+    buildTool maven
+    clientFramework react
+    enableTranslation false
+    nativeLanguage es
+    languages [es]
+    websocket no
+    testFrameworks [cucumber]
+    jhiPrefix project
+    reactive false
+    serverPort 8080
+    searchEngine false
+    clientTheme cyborg
+    clientThemeVariant secondary
+  }
+  entities *
+}
+
+enum EstadoGeneral {
+  ACTIVO,
+  INACTIVO
+}
+
+enum ModalidadDeporte {
+  TRESXTRES,
+  CINCOXCINCO,
+  ONCEXONCE
+}
+
+enum EstadoTorneo {
+  ACTIVO,
+  FINALIZADO,
+  CANCELADO
+}
+
+enum EstadoSolicitud {
+  PENDIENTE,
+  APROBADA,
+  RECHAZADA,
+  CANCELADA
+}
+
+enum EstadoPartido {
+  PROGRAMADO,
+  EN_CURSO,
+  FINALIZADO,
+  SUSPENDIDO
+}
+
+enum TipoEventoPartido {
+  GOL,
+  PUNTOS,
+  DESCANSO,
+  PLANTILLA
+}
+
+enum TipoNoticia {
+  NOTICIA,
+  CONVOCATORIA,
+  ANUNCIO
+}
+
+enum EstadoEncuesta {
+  ACTIVA,
+  INACTIVA
+}
+
+enum TipoEventoCalendario {
+  INSCRIPCION,
+  PARTIDO
+}
+
+entity Cuenta {
+  fechaNacimiento LocalDate
+  numeroDocumento String required unique maxlength(20)
+  correo String required unique maxlength(255)
+  telefono String required maxlength(20)
+  direccion String maxlength(200)
+  foto ImageBlob
+  estado EstadoGeneral required
+}
+
+entity TipoDocumento {
+  sigla String required unique maxlength(20)
+  nombreDocumento String required unique maxlength(100)
+  estado EstadoGeneral required
+}
+
+entity Categoria {
+  nombre String required unique maxlength(100)
+  modalidad ModalidadDeporte required
+  descripcion TextBlob
+  fechaCreacion Instant
+  fechaActualizacion Instant
+  estado EstadoGeneral required
+}
+
+entity Torneo {
+  nombre String required maxlength(120)
+  descripcion TextBlob
+  fechaInicio LocalDate required
+  fechaFin LocalDate
+  horaInicio ZonedDateTime
+  ubicacion String required maxlength(200)
+  reglamento Blob
+  cupoMaximoEquipos Integer required
+  cupoMaximoJugadores Integer
+  estado EstadoTorneo required
+}
+
+entity Grupo {
+  nombre String required maxlength(100)
+  descripcion TextBlob
+  escudo ImageBlob
+  limiteParticipantes Integer required
+  estado EstadoGeneral required
+}
+
+entity MiembroGrupo {
+  fechaIngreso Instant required
+  estado EstadoGeneral required
+  esAdministrador Boolean required
+}
+
+entity Inscripcion {
+  codigo String required unique maxlength(30)
+  fechaInscripcion Instant required
+  estado EstadoSolicitud required
+  observaciones TextBlob
+}
+
+entity Partido {
+  fechaHora ZonedDateTime required
+  lugar String required maxlength(150)
+  tiempoMinutos Integer required
+  marcadorLocal Integer 
+  marcadorVisitante Integer  
+  estado EstadoPartido required
+}
+
+entity TablaPosicion {
+  puntos Integer required
+  partidosJugados Integer required
+  partidosGanados Integer required
+  partidosEmpatados Integer required
+  partidosPerdidos Integer required
+  golesFavor Integer required
+  golesContra Integer required
+  diferenciaGoles Integer required
+}
+
+entity MensajeGrupo {
+  contenido TextBlob required
+  fechaPublicacion Instant required
+  estado EstadoGeneral required
+}
+
+entity Encuesta {
+  titulo TextBlob required
+
+  opcion1 String required maxlength(255)
+  opcion2 String required maxlength(255)
+  opcion3 String maxlength(255)
+  opcion4 String maxlength(255)
+
+  votosOpcion1 Integer
+  votosOpcion2 Integer
+  votosOpcion3 Integer
+  votosOpcion4 Integer
+
+  fechaInicio Instant
+  fechaFin Instant
+  estado EstadoEncuesta required
+}
+
+entity Calificacion {
+  puntaje Integer required
+  comentario String maxlength(255)
+  fechaCalificacion Instant required
+  estado EstadoGeneral required
+}
+
+entity Noticia {
+  titulo String required maxlength(150)
+  contenido TextBlob required
+  tipo TipoNoticia required
+  fechaPublicacion Instant required
+  estado EstadoGeneral required
+}
+
+entity Convocatoria {
+  titulo String required maxlength(150)
+  descripcion TextBlob required
+  fechaPublicacion Instant required
+  fechaInicioInscripcion LocalDate
+  fechaFinInscripcion LocalDate
+  cupos Integer
+  estado EstadoGeneral required
+}
+
+entity CalendarioEvento {
+  titulo String required maxlength(120)
+  descripcion TextBlob
+  calendario Blob
+  fechaEvento ZonedDateTime required
+  tipo TipoEventoCalendario required
+  estado EstadoGeneral required
+}
+
+entity Notificacion {
+  titulo String required maxlength(120)
+  mensaje TextBlob required
+  leida Boolean required
+  fechaEnvio Instant required
+  estado EstadoGeneral required
+}
+
+relationship OneToOne {
+  Cuenta{user(login) required} to User with builtInEntity
+}
+
+relationship OneToMany {
+  TipoDocumento{cuentas} to Cuenta{tipoDocumento(nombreDocumento) required}
+
+  Categoria{torneos} to Torneo{categoria(nombre) required}
+
+  Grupo{miembros} to MiembroGrupo{grupo(nombre) required}
+  Cuenta{grupos} to MiembroGrupo{usuario required}
+
+  Torneo{inscripciones} to Inscripcion{torneo(nombre) required}
+  Cuenta{inscripciones} to Inscripcion{usuario required}
+
+  Torneo{partidos} to Partido{torneo(nombre) required}
+
+  Torneo{tablaPosiciones} to TablaPosicion{torneo(nombre) required}
+
+  Grupo{mensajes} to MensajeGrupo{grupo(nombre) required}
+  Cuenta{mensajes} to MensajeGrupo{autor required}
+
+  Grupo{encuestas} to Encuesta{grupo(nombre)}
+  
+  Torneo{encuestas} to Encuesta{torneo(nombre)}
+  Torneo{calificaciones} to Calificacion{torneo(nombre) required}
+  
+  Cuenta{calificaciones} to Calificacion{autor required}
+
+  Torneo{convocatorias} to Convocatoria{torneo(nombre) required}
+  Torneo{eventosCalendario} to CalendarioEvento{torneo(nombre) required}
+  
+  Cuenta{noticias} to Noticia{autor required}
+  Cuenta{notificaciones} to Notificacion{destinatario required}
+
+}
+
+relationship ManyToOne {
+    Partido{equipolocal(nombre)} to Grupo
+    Partido{equipovisitante(nombre)} to Grupo
+    TablaPosicion{grupo(nombre) required} to Grupo
+}
+
+dto * with mapstruct
+service * with serviceImpl
+paginate * with pagination

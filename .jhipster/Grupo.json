@@ -1,0 +1,61 @@
+{
+  "annotations": {
+    "changelogDate": "20260619152958"
+  },
+  "applications": ["playmatch"],
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "nombre",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "maxlength"],
+      "fieldValidateRulesMaxlength": "100"
+    },
+    {
+      "fieldName": "descripcion",
+      "fieldType": "TextBlob"
+    },
+    {
+      "fieldName": "escudo",
+      "fieldType": "ImageBlob"
+    },
+    {
+      "fieldName": "limiteParticipantes",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "estado",
+      "fieldType": "EstadoGeneral",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "ACTIVO,INACTIVO"
+    }
+  ],
+  "name": "Grupo",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityName": "miembroGrupo",
+      "otherEntityRelationshipName": "grupo",
+      "relationshipName": "miembros",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "mensajeGrupo",
+      "otherEntityRelationshipName": "grupo",
+      "relationshipName": "mensajes",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "encuesta",
+      "otherEntityRelationshipName": "grupo",
+      "relationshipName": "encuestas",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

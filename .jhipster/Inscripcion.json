@@ -1,0 +1,53 @@
+{
+  "annotations": {
+    "changelogDate": "20260619153158"
+  },
+  "applications": ["playmatch"],
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "codigo",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "unique", "maxlength"],
+      "fieldValidateRulesMaxlength": "30"
+    },
+    {
+      "fieldName": "fechaInscripcion",
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "estado",
+      "fieldType": "EstadoSolicitud",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "PENDIENTE,APROBADA,RECHAZADA,CANCELADA"
+    },
+    {
+      "fieldName": "observaciones",
+      "fieldType": "TextBlob"
+    }
+  ],
+  "name": "Inscripcion",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityField": "nombre",
+      "otherEntityName": "torneo",
+      "otherEntityRelationshipName": "inscripciones",
+      "relationshipName": "torneo",
+      "relationshipSide": "right",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required"
+    },
+    {
+      "otherEntityName": "cuenta",
+      "otherEntityRelationshipName": "inscripciones",
+      "relationshipName": "usuario",
+      "relationshipSide": "right",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": "required"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}
