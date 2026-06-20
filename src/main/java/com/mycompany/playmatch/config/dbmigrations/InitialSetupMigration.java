@@ -55,6 +55,8 @@ public class InitialSetupMigration {
         template.save(user);
         User admin = createAdmin(adminAuthority, userAuthority);
         template.save(admin);
+        User adminGrupo = createAdminGrupo(adminAuthority, userAuthority);
+        template.save(adminGrupo);
     }
 
     private User createUser(Authority userAuthority) {
@@ -88,5 +90,22 @@ public class InitialSetupMigration {
         adminUser.getAuthorities().add(adminAuthority);
         adminUser.getAuthorities().add(userAuthority);
         return adminUser;
+    }
+
+    private User createAdminGrupo(Authority adminAuthority, Authority userAuthority) {
+        User adminGrupo = new User();
+        adminGrupo.setId("user-3");
+        adminGrupo.setLogin("admingrupo");
+        adminGrupo.setPassword("$2a$10$Tzv30UegYHMTaHXpIZXQHe34dQYDIklqRpyDD/RY4cAObcVBKJMfq");
+        adminGrupo.setFirstName("Admin");
+        adminGrupo.setLastName("Grupo");
+        adminGrupo.setEmail("admingrupo@localhost");
+        adminGrupo.setActivated(true);
+        adminGrupo.setLangKey("es");
+        adminGrupo.setCreatedBy(Constants.SYSTEM);
+        adminGrupo.setCreatedDate(Instant.now());
+        adminGrupo.getAuthorities().add(adminAuthority);
+        adminGrupo.getAuthorities().add(userAuthority);
+        return adminGrupo;
     }
 }
