@@ -28,7 +28,10 @@ public class InitialSetupMigration {
         userAuthority = template.save(userAuthority);
         Authority adminAuthority = createAdminAuthority();
         adminAuthority = template.save(adminAuthority);
-        addUsers(userAuthority, adminAuthority);
+        Authority organizadorAuthority = createOrganizadorAuthority();
+        organizadorAuthority = template.save(organizadorAuthority);
+
+        addUsers(userAuthority, adminAuthority, organizadorAuthority);
     }
 
     @RollbackExecution
@@ -50,11 +53,18 @@ public class InitialSetupMigration {
         return userAuthority;
     }
 
-    private void addUsers(Authority userAuthority, Authority adminAuthority) {
+    private Authority createOrganizadorAuthority(){
+        Authority organizadorAuthority = createAuthority(AuthoritiesConstants.ORGANIZADOR);
+        return organizadorAuthority;
+    }
+
+    private void addUsers(Authority userAuthority, Authority adminAuthority, Authority organizadorAuthority) {
         User user = createUser(userAuthority);
         template.save(user);
         User admin = createAdmin(adminAuthority, userAuthority);
         template.save(admin);
+        User organizador = createOrganizador(organizadorAuthority, userAuthority);
+        template.save(organizador);
     }
 
     private User createUser(Authority userAuthority) {
@@ -88,5 +98,21 @@ public class InitialSetupMigration {
         adminUser.getAuthorities().add(adminAuthority);
         adminUser.getAuthorities().add(userAuthority);
         return adminUser;
+    }
+
+    private User createOrganizador(Authority organizadorAuthority, Authority userAuthority) {
+        User organizadorUser = new User();
+        organizadorUser.setLogin("organizador");
+        organizadorUser.setPassword("$2a$10$VEjxo0jq2YG9Rbk2HmX9S.k1uZBGYUHdUcid3g/vfiEl7lwWgOH/K");
+        organizadorUser.setFirstName("Organizador");
+        organizadorUser.setLastName("Organizador");
+        organizadorUser.setEmail("organizador@localhost");
+        organizadorUser.setActivated(true);
+        organizadorUser.setLangKey("es");
+        organizadorUser.setCreatedBy(Constants.SYSTEM);
+        organizadorUser.setCreatedDate(Instant.now());
+        organizadorUser.getAuthorities().add(organizadorAuthority);
+        organizadorUser.getAuthorities().add(userAuthority);
+        return organizadorUser;
     }
 }
