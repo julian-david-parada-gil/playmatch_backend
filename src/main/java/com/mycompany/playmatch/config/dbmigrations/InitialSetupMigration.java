@@ -28,7 +28,10 @@ public class InitialSetupMigration {
         userAuthority = template.save(userAuthority);
         Authority adminAuthority = createAdminAuthority();
         adminAuthority = template.save(adminAuthority);
-        addUsers(userAuthority, adminAuthority);
+        Authority organizadorAuthority = createOrganizadorAuthority();
+        organizadorAuthority = template.save(organizadorAuthority);
+
+        addUsers(userAuthority, adminAuthority, organizadorAuthority);
     }
 
     @RollbackExecution
@@ -50,13 +53,18 @@ public class InitialSetupMigration {
         return userAuthority;
     }
 
-    private void addUsers(Authority userAuthority, Authority adminAuthority) {
+    private Authority createOrganizadorAuthority(){
+        Authority organizadorAuthority = createAuthority(AuthoritiesConstants.ORGANIZADOR);
+        return organizadorAuthority;
+    }
+
+    private void addUsers(Authority userAuthority, Authority adminAuthority, Authority organizadorAuthority) {
         User user = createUser(userAuthority);
         template.save(user);
         User admin = createAdmin(adminAuthority, userAuthority);
         template.save(admin);
-        User adminGrupo = createAdminGrupo(adminAuthority, userAuthority);
-        template.save(adminGrupo);
+        User organizador = createOrganizador(organizadorAuthority, userAuthority);
+        template.save(organizador);
     }
 
     private User createUser(Authority userAuthority) {
@@ -92,20 +100,19 @@ public class InitialSetupMigration {
         return adminUser;
     }
 
-    private User createAdminGrupo(Authority adminAuthority, Authority userAuthority) {
-        User adminGrupo = new User();
-        adminGrupo.setId("user-3");
-        adminGrupo.setLogin("admingrupo");
-        adminGrupo.setPassword("$2a$10$Tzv30UegYHMTaHXpIZXQHe34dQYDIklqRpyDD/RY4cAObcVBKJMfq");
-        adminGrupo.setFirstName("Admin");
-        adminGrupo.setLastName("Grupo");
-        adminGrupo.setEmail("admingrupo@localhost");
-        adminGrupo.setActivated(true);
-        adminGrupo.setLangKey("es");
-        adminGrupo.setCreatedBy(Constants.SYSTEM);
-        adminGrupo.setCreatedDate(Instant.now());
-        adminGrupo.getAuthorities().add(adminAuthority);
-        adminGrupo.getAuthorities().add(userAuthority);
-        return adminGrupo;
+    private User createOrganizador(Authority organizadorAuthority, Authority userAuthority) {
+        User organizadorUser = new User();
+        organizadorUser.setLogin("organizador");
+        organizadorUser.setPassword("$2a$10$VEjxo0jq2YG9Rbk2HmX9S.k1uZBGYUHdUcid3g/vfiEl7lwWgOH/K");
+        organizadorUser.setFirstName("Organizador");
+        organizadorUser.setLastName("Organizador");
+        organizadorUser.setEmail("organizador@localhost");
+        organizadorUser.setActivated(true);
+        organizadorUser.setLangKey("es");
+        organizadorUser.setCreatedBy(Constants.SYSTEM);
+        organizadorUser.setCreatedDate(Instant.now());
+        organizadorUser.getAuthorities().add(organizadorAuthority);
+        organizadorUser.getAuthorities().add(userAuthority);
+        return organizadorUser;
     }
 }
