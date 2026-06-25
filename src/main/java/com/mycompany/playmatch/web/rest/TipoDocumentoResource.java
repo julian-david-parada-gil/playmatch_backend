@@ -1,6 +1,7 @@
 package com.mycompany.playmatch.web.rest;
 
 import com.mycompany.playmatch.repository.TipoDocumentoRepository;
+import com.mycompany.playmatch.security.AuthoritiesConstants;
 import com.mycompany.playmatch.service.TipoDocumentoService;
 import com.mycompany.playmatch.service.dto.TipoDocumentoDTO;
 import com.mycompany.playmatch.web.rest.errors.BadRequestAlertException;
@@ -18,6 +19,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
@@ -55,6 +57,7 @@ public class TipoDocumentoResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("")
+    @PreAuthorize("hasAuthority(\""+ AuthoritiesConstants.ADMIN)
     public ResponseEntity<TipoDocumentoDTO> createTipoDocumento(@Valid @RequestBody TipoDocumentoDTO tipoDocumentoDTO)
         throws URISyntaxException {
         LOG.debug("REST request to save TipoDocumento : {}", tipoDocumentoDTO);
@@ -78,6 +81,7 @@ public class TipoDocumentoResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority(\""+ AuthoritiesConstants.ADMIN)
     public ResponseEntity<TipoDocumentoDTO> updateTipoDocumento(
         @PathVariable(value = "id", required = false) final String id,
         @Valid @RequestBody TipoDocumentoDTO tipoDocumentoDTO
@@ -112,6 +116,7 @@ public class TipoDocumentoResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/{id}", consumes = { "application/json", "application/merge-patch+json" })
+    @PreAuthorize("hasAuthority(\""+ AuthoritiesConstants.ADMIN)
     public ResponseEntity<TipoDocumentoDTO> partialUpdateTipoDocumento(
         @PathVariable(value = "id", required = false) final String id,
         @NotNull @RequestBody TipoDocumentoDTO tipoDocumentoDTO
@@ -143,6 +148,7 @@ public class TipoDocumentoResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of Tipo Documentos in body.
      */
     @GetMapping("")
+    @PreAuthorize("hasAuthority(\""+ AuthoritiesConstants.ADMIN)
     public ResponseEntity<List<TipoDocumentoDTO>> getAllTipoDocumentos(@org.springdoc.core.annotations.ParameterObject Pageable pageable) {
         LOG.debug("REST request to get a page of TipoDocumentos");
         Page<TipoDocumentoDTO> page = tipoDocumentoService.findAll(pageable);
@@ -157,6 +163,7 @@ public class TipoDocumentoResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the tipoDocumentoDTO, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority(\""+ AuthoritiesConstants.ADMIN)
     public ResponseEntity<TipoDocumentoDTO> getTipoDocumento(@PathVariable("id") String id) {
         LOG.debug("REST request to get TipoDocumento : {}", id);
         Optional<TipoDocumentoDTO> tipoDocumentoDTO = tipoDocumentoService.findOne(id);
@@ -170,6 +177,7 @@ public class TipoDocumentoResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority(\""+ AuthoritiesConstants.ADMIN)
     public ResponseEntity<Void> deleteTipoDocumento(@PathVariable("id") String id) {
         LOG.debug("REST request to delete TipoDocumento : {}", id);
         tipoDocumentoService.delete(id);
