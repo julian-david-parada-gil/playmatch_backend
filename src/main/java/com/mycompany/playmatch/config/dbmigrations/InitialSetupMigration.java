@@ -35,7 +35,8 @@ public class InitialSetupMigration {
     }
 
     @RollbackExecution
-    public void rollback() {}
+    public void rollback() {
+    }
 
     private Authority createAuthority(String authority) {
         Authority adminAuthority = new Authority();
@@ -53,7 +54,7 @@ public class InitialSetupMigration {
         return userAuthority;
     }
 
-    private Authority createOrganizadorAuthority(){
+    private Authority createOrganizadorAuthority() {
         Authority organizadorAuthority = createAuthority(AuthoritiesConstants.ORGANIZADOR);
         return organizadorAuthority;
     }
@@ -100,8 +101,6 @@ public class InitialSetupMigration {
         User organizadorUser = new User();
         organizadorUser.setLogin("organizador");
         organizadorUser.setPassword("$2a$10$VEjxo0jq2YG9Rbk2HmX9S.k1uZBGYUHdUcid3g/vfiEl7lwWgOH/K");
-        organizadorUser.setFirstName("Organizador");
-        organizadorUser.setLastName("Organizador");
         organizadorUser.setEmail("organizador@localhost");
         organizadorUser.setActivated(true);
         organizadorUser.setLangKey("es");
@@ -111,7 +110,7 @@ public class InitialSetupMigration {
         organizadorUser.getAuthorities().add(userAuthority);
         return organizadorUser;
     }
-    
+
     private User createAdminGrupo(Authority adminAuthority, Authority userAuthority) {
         User adminGrupo = new User();
         adminGrupo.setId("user-3");
@@ -126,3 +125,4 @@ public class InitialSetupMigration {
         adminGrupo.getAuthorities().add(userAuthority);
         return adminGrupo;
     }
+}
