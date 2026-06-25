@@ -72,8 +72,6 @@ public class InitialSetupMigration {
         userUser.setId("user-2");
         userUser.setLogin("user");
         userUser.setPassword("$2a$10$VEjxo0jq2YG9Rbk2HmX9S.k1uZBGYUHdUcid3g/vfiEl7lwWgOH/K");
-        userUser.setFirstName("User");
-        userUser.setLastName("User");
         userUser.setEmail("user@localhost");
         userUser.setActivated(true);
         userUser.setLangKey("es");
@@ -88,8 +86,6 @@ public class InitialSetupMigration {
         adminUser.setId("user-1");
         adminUser.setLogin("admin");
         adminUser.setPassword("$2a$10$gSAhZrxMllrbgj/kkK9UceBPpChGWJA7SYIb1Mqo.n5aNLq1/oRrC");
-        adminUser.setFirstName("admin");
-        adminUser.setLastName("Administrator");
         adminUser.setEmail("admin@localhost");
         adminUser.setActivated(true);
         adminUser.setLangKey("es");
@@ -115,4 +111,18 @@ public class InitialSetupMigration {
         organizadorUser.getAuthorities().add(userAuthority);
         return organizadorUser;
     }
-}
+    
+    private User createAdminGrupo(Authority adminAuthority, Authority userAuthority) {
+        User adminGrupo = new User();
+        adminGrupo.setId("user-3");
+        adminGrupo.setLogin("admingrupo");
+        adminGrupo.setPassword("$2a$10$Tzv30UegYHMTaHXpIZXQHe34dQYDIklqRpyDD/RY4cAObcVBKJMfq");
+        adminGrupo.setEmail("admingrupo@localhost");
+        adminGrupo.setActivated(true);
+        adminGrupo.setLangKey("es");
+        adminGrupo.setCreatedBy(Constants.SYSTEM);
+        adminGrupo.setCreatedDate(Instant.now());
+        adminGrupo.getAuthorities().add(adminAuthority);
+        adminGrupo.getAuthorities().add(userAuthority);
+        return adminGrupo;
+    }
