@@ -55,6 +55,7 @@ public class GrupoResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("")
+    @PreAuthorize("hasAuthority(\""+ AuthoritiesConstants.ADMIN + "\") or hasAuthority(\"" + AuthoritiesConstants.ORGANIZADOR + "\") or hasAuthority(\"" + AuthoritiesConstants.PARTICIPANTE + "\")")
     public ResponseEntity<GrupoDTO> createGrupo(@Valid @RequestBody GrupoDTO grupoDTO) throws URISyntaxException {
         LOG.debug("REST request to save Grupo : {}", grupoDTO);
         if (grupoDTO.getId() != null) {
@@ -77,6 +78,7 @@ public class GrupoResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority(\""+ AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<GrupoDTO> updateGrupo(
         @PathVariable(value = "id", required = false) final String id,
         @Valid @RequestBody GrupoDTO grupoDTO
@@ -111,6 +113,7 @@ public class GrupoResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/{id}", consumes = { "application/json", "application/merge-patch+json" })
+    @PreAuthorize("hasAuthority(\""+ AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<GrupoDTO> partialUpdateGrupo(
         @PathVariable(value = "id", required = false) final String id,
         @NotNull @RequestBody GrupoDTO grupoDTO
@@ -142,6 +145,7 @@ public class GrupoResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of Grupos in body.
      */
     @GetMapping("")
+    @PreAuthorize("hasAuthority(\""+ AuthoritiesConstants.ADMIN + "\") or hasAuthority(\"" + AuthoritiesConstants.ORGANIZADOR + "\") or hasAuthority(\"" + AuthoritiesConstants.PARTICIPANTE + "\")")
     public ResponseEntity<List<GrupoDTO>> getAllGrupos(@org.springdoc.core.annotations.ParameterObject Pageable pageable) {
         LOG.debug("REST request to get a page of Grupos");
         Page<GrupoDTO> page = grupoService.findAll(pageable);
@@ -156,6 +160,7 @@ public class GrupoResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the grupoDTO, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority(\""+ AuthoritiesConstants.ADMIN + "\") or hasAuthority(\"" + AuthoritiesConstants.ORGANIZADOR + "\") or hasAuthority(\"" + AuthoritiesConstants.PARTICIPANTE + "\")")
     public ResponseEntity<GrupoDTO> getGrupo(@PathVariable("id") String id) {
         LOG.debug("REST request to get Grupo : {}", id);
         Optional<GrupoDTO> grupoDTO = grupoService.findOne(id);
@@ -169,6 +174,7 @@ public class GrupoResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority(\""+ AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<Void> deleteGrupo(@PathVariable("id") String id) {
         LOG.debug("REST request to delete Grupo : {}", id);
         grupoService.delete(id);

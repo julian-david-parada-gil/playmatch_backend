@@ -57,7 +57,7 @@ public class TipoDocumentoResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("")
-    @PreAuthorize("hasAuthority(\""+ AuthoritiesConstants.ADMIN)
+    @PreAuthorize("hasAuthority(\""+ AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<TipoDocumentoDTO> createTipoDocumento(@Valid @RequestBody TipoDocumentoDTO tipoDocumentoDTO)
         throws URISyntaxException {
         LOG.debug("REST request to save TipoDocumento : {}", tipoDocumentoDTO);
@@ -81,7 +81,7 @@ public class TipoDocumentoResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/{id}")
-    @PreAuthorize("hasAuthority(\""+ AuthoritiesConstants.ADMIN)
+    @PreAuthorize("hasAuthority(\""+ AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<TipoDocumentoDTO> updateTipoDocumento(
         @PathVariable(value = "id", required = false) final String id,
         @Valid @RequestBody TipoDocumentoDTO tipoDocumentoDTO
@@ -116,7 +116,7 @@ public class TipoDocumentoResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/{id}", consumes = { "application/json", "application/merge-patch+json" })
-    @PreAuthorize("hasAuthority(\""+ AuthoritiesConstants.ADMIN)
+    @PreAuthorize("hasAuthority(\""+ AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<TipoDocumentoDTO> partialUpdateTipoDocumento(
         @PathVariable(value = "id", required = false) final String id,
         @NotNull @RequestBody TipoDocumentoDTO tipoDocumentoDTO
@@ -148,7 +148,7 @@ public class TipoDocumentoResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of Tipo Documentos in body.
      */
     @GetMapping("")
-    @PreAuthorize("hasAuthority(\""+ AuthoritiesConstants.ADMIN)
+    @PreAuthorize("hasAuthority(\""+ AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<List<TipoDocumentoDTO>> getAllTipoDocumentos(@org.springdoc.core.annotations.ParameterObject Pageable pageable) {
         LOG.debug("REST request to get a page of TipoDocumentos");
         Page<TipoDocumentoDTO> page = tipoDocumentoService.findAll(pageable);
@@ -163,7 +163,7 @@ public class TipoDocumentoResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the tipoDocumentoDTO, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/{id}")
-    @PreAuthorize("hasAuthority(\""+ AuthoritiesConstants.ADMIN)
+    @PreAuthorize("hasAuthority(\""+ AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<TipoDocumentoDTO> getTipoDocumento(@PathVariable("id") String id) {
         LOG.debug("REST request to get TipoDocumento : {}", id);
         Optional<TipoDocumentoDTO> tipoDocumentoDTO = tipoDocumentoService.findOne(id);
@@ -177,7 +177,7 @@ public class TipoDocumentoResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAuthority(\""+ AuthoritiesConstants.ADMIN)
+    @PreAuthorize("hasAuthority(\""+ AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<Void> deleteTipoDocumento(@PathVariable("id") String id) {
         LOG.debug("REST request to delete TipoDocumento : {}", id);
         tipoDocumentoService.delete(id);

@@ -55,6 +55,7 @@ public class TorneoResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("")
+    @PreAuthorize("hasAuthority(\""+ AuthoritiesConstants.ADMIN + "\") or hasAuthority(\"" + AuthoritiesConstants.ORGANIZADOR + "\")")
     public ResponseEntity<TorneoDTO> createTorneo(@Valid @RequestBody TorneoDTO torneoDTO) throws URISyntaxException {
         LOG.debug("REST request to save Torneo : {}", torneoDTO);
         if (torneoDTO.getId() != null) {
@@ -77,6 +78,7 @@ public class TorneoResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority(\""+ AuthoritiesConstants.ADMIN + "\") or hasAuthority(\"" + AuthoritiesConstants.ORGANIZADOR + "\")")
     public ResponseEntity<TorneoDTO> updateTorneo(
         @PathVariable(value = "id", required = false) final String id,
         @Valid @RequestBody TorneoDTO torneoDTO
@@ -111,6 +113,7 @@ public class TorneoResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/{id}", consumes = { "application/json", "application/merge-patch+json" })
+    @PreAuthorize("hasAuthority(\""+ AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<TorneoDTO> partialUpdateTorneo(
         @PathVariable(value = "id", required = false) final String id,
         @NotNull @RequestBody TorneoDTO torneoDTO
@@ -143,6 +146,7 @@ public class TorneoResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of Torneos in body.
      */
     @GetMapping("")
+    @PreAuthorize("hasAuthority(\""+ AuthoritiesConstants.ADMIN + "\") or hasAuthority(\"" + AuthoritiesConstants.ORGANIZADOR + "\") or hasAuthority(\"" + AuthoritiesConstants.PARTICIPANTE + "\")")
     public ResponseEntity<List<TorneoDTO>> getAllTorneos(
         @org.springdoc.core.annotations.ParameterObject Pageable pageable,
         @RequestParam(name = "eagerload", required = false, defaultValue = "true") boolean eagerload
@@ -165,6 +169,7 @@ public class TorneoResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the torneoDTO, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority(\""+ AuthoritiesConstants.ADMIN + "\") or hasAuthority(\"" + AuthoritiesConstants.ORGANIZADOR + "\") or hasAuthority(\"" + AuthoritiesConstants.PARTICIPANTE + "\")")
     public ResponseEntity<TorneoDTO> getTorneo(@PathVariable("id") String id) {
         LOG.debug("REST request to get Torneo : {}", id);
         Optional<TorneoDTO> torneoDTO = torneoService.findOne(id);
@@ -178,6 +183,7 @@ public class TorneoResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority(\""+ AuthoritiesConstants.ADMIN + "\") or hasAuthority(\"" + AuthoritiesConstants.ORGANIZADOR + "\")")
     public ResponseEntity<Void> deleteTorneo(@PathVariable("id") String id) {
         LOG.debug("REST request to delete Torneo : {}", id);
         torneoService.delete(id);

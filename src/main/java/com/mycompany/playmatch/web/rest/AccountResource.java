@@ -85,6 +85,7 @@ public class AccountResource {
      * @throws RuntimeException {@code 500 (Internal Server Error)} if the user couldn't be returned.
      */
     @GetMapping("/account")
+    @PreAuthorize("hasAuthority(\""+ AuthoritiesConstants.ADMIN + "\")")
     public AdminUserDTO getAccount() {
         return userService
             .getUserWithAuthorities()
@@ -100,6 +101,7 @@ public class AccountResource {
      * @throws RuntimeException {@code 500 (Internal Server Error)} if the user login wasn't found.
      */
     @PostMapping("/account")
+    @PreAuthorize("hasAuthority(\""+ AuthoritiesConstants.ADMIN + "\")")
     public void saveAccount(@Valid @RequestBody AdminUserDTO userDTO) {
         String userLogin = SecurityUtils.getCurrentUserLogin().orElseThrow(() ->
             new AccountResourceException("Current user login not found")
@@ -126,6 +128,7 @@ public class AccountResource {
      * @throws InvalidPasswordException {@code 400 (Bad Request)} if the new password is incorrect.
      */
     @PostMapping(path = "/account/change-password")
+   @PreAuthorize("hasAuthority(\""+ AuthoritiesConstants.ADMIN + "\")")
     public void changePassword(@RequestBody PasswordChangeDTO passwordChangeDto) {
         if (isPasswordLengthInvalid(passwordChangeDto.getNewPassword())) {
             throw new InvalidPasswordException();
