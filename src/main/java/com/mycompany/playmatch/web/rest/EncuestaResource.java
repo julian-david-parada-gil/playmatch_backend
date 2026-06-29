@@ -55,6 +55,7 @@ public class EncuestaResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("")
+    @PreAuthorize("hasAuthority(\""+ AuthoritiesConstants.ADMIN + "\") or hasAuthority(\"" + AuthoritiesConstants.ORGANIZADOR + "\")")
     public ResponseEntity<EncuestaDTO> createEncuesta(@Valid @RequestBody EncuestaDTO encuestaDTO) throws URISyntaxException {
         LOG.debug("REST request to save Encuesta : {}", encuestaDTO);
         if (encuestaDTO.getId() != null) {
@@ -77,6 +78,7 @@ public class EncuestaResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority(\""+ AuthoritiesConstants.ADMIN + "\") or hasAuthority(\"" + AuthoritiesConstants.ORGANIZADOR + "\")")
     public ResponseEntity<EncuestaDTO> updateEncuesta(
         @PathVariable(value = "id", required = false) final String id,
         @Valid @RequestBody EncuestaDTO encuestaDTO
@@ -143,6 +145,7 @@ public class EncuestaResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of Encuestas in body.
      */
     @GetMapping("")
+    @PreAuthorize("hasAuthority(\""+ AuthoritiesConstants.ADMIN + "\") or hasAuthority(\"" + AuthoritiesConstants.ORGANIZADOR + "\")")
     public ResponseEntity<List<EncuestaDTO>> getAllEncuestas(
         @org.springdoc.core.annotations.ParameterObject Pageable pageable,
         @RequestParam(name = "eagerload", required = false, defaultValue = "true") boolean eagerload
@@ -165,6 +168,7 @@ public class EncuestaResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the encuestaDTO, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority(\""+ AuthoritiesConstants.ADMIN + "\") or hasAuthority(\"" + AuthoritiesConstants.ORGANIZADOR + "\")")
     public ResponseEntity<EncuestaDTO> getEncuesta(@PathVariable("id") String id) {
         LOG.debug("REST request to get Encuesta : {}", id);
         Optional<EncuestaDTO> encuestaDTO = encuestaService.findOne(id);
@@ -178,6 +182,7 @@ public class EncuestaResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority(\""+ AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<Void> deleteEncuesta(@PathVariable("id") String id) {
         LOG.debug("REST request to delete Encuesta : {}", id);
         encuestaService.delete(id);

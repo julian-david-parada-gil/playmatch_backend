@@ -55,6 +55,7 @@ public class MensajeGrupoResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("")
+    @PreAuthorize("hasAuthority(\""+ AuthoritiesConstants.ADMIN + "\") or hasAuthority(\"" + AuthoritiesConstants.ORGANIZADOR + "\") or hasAuthority(\"" + AuthoritiesConstants.PARTICIPANTE + "\")")
     public ResponseEntity<MensajeGrupoDTO> createMensajeGrupo(@Valid @RequestBody MensajeGrupoDTO mensajeGrupoDTO)
         throws URISyntaxException {
         LOG.debug("REST request to save MensajeGrupo : {}", mensajeGrupoDTO);
@@ -78,6 +79,7 @@ public class MensajeGrupoResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority(\""+ AuthoritiesConstants.ADMIN + "\") or hasAuthority(\"" + AuthoritiesConstants.ORGANIZADOR + "\") or hasAuthority(\"" + AuthoritiesConstants.PARTICIPANTE + "\")")
     public ResponseEntity<MensajeGrupoDTO> updateMensajeGrupo(
         @PathVariable(value = "id", required = false) final String id,
         @Valid @RequestBody MensajeGrupoDTO mensajeGrupoDTO
@@ -144,6 +146,7 @@ public class MensajeGrupoResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of Mensaje Grupos in body.
      */
     @GetMapping("")
+    @PreAuthorize("hasAuthority(\""+ AuthoritiesConstants.ADMIN + "\") or hasAuthority(\"" + AuthoritiesConstants.ORGANIZADOR + "\") or hasAuthority(\"" + AuthoritiesConstants.PARTICIPANTE + "\")")
     public ResponseEntity<List<MensajeGrupoDTO>> getAllMensajeGrupos(
         @org.springdoc.core.annotations.ParameterObject Pageable pageable,
         @RequestParam(name = "eagerload", required = false, defaultValue = "true") boolean eagerload
@@ -166,6 +169,7 @@ public class MensajeGrupoResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the mensajeGrupoDTO, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority(\""+ AuthoritiesConstants.ADMIN + "\") or hasAuthority(\"" + AuthoritiesConstants.ORGANIZADOR + "\") or hasAuthority(\"" + AuthoritiesConstants.PARTICIPANTE + "\")")
     public ResponseEntity<MensajeGrupoDTO> getMensajeGrupo(@PathVariable("id") String id) {
         LOG.debug("REST request to get MensajeGrupo : {}", id);
         Optional<MensajeGrupoDTO> mensajeGrupoDTO = mensajeGrupoService.findOne(id);
@@ -179,6 +183,7 @@ public class MensajeGrupoResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority(\""+ AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<Void> deleteMensajeGrupo(@PathVariable("id") String id) {
         LOG.debug("REST request to delete MensajeGrupo : {}", id);
         mensajeGrupoService.delete(id);

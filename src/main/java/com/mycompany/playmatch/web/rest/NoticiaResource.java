@@ -55,6 +55,7 @@ public class NoticiaResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("")
+    @PreAuthorize("hasAuthority(\""+ AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<NoticiaDTO> createNoticia(@Valid @RequestBody NoticiaDTO noticiaDTO) throws URISyntaxException {
         LOG.debug("REST request to save Noticia : {}", noticiaDTO);
         if (noticiaDTO.getId() != null) {
@@ -77,6 +78,7 @@ public class NoticiaResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority(\""+ AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<NoticiaDTO> updateNoticia(
         @PathVariable(value = "id", required = false) final String id,
         @Valid @RequestBody NoticiaDTO noticiaDTO
@@ -142,6 +144,7 @@ public class NoticiaResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of Noticias in body.
      */
     @GetMapping("")
+    @PreAuthorize("hasAuthority(\""+ AuthoritiesConstants.ADMIN + "\") or hasAuthority(\"" + AuthoritiesConstants.ORGANIZADOR + "\")")
     public ResponseEntity<List<NoticiaDTO>> getAllNoticias(@org.springdoc.core.annotations.ParameterObject Pageable pageable) {
         LOG.debug("REST request to get a page of Noticias");
         Page<NoticiaDTO> page = noticiaService.findAll(pageable);
@@ -156,6 +159,7 @@ public class NoticiaResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the noticiaDTO, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority(\""+ AuthoritiesConstants.ADMIN + "\") or hasAuthority(\"" + AuthoritiesConstants.ORGANIZADOR + "\")")
     public ResponseEntity<NoticiaDTO> getNoticia(@PathVariable("id") String id) {
         LOG.debug("REST request to get Noticia : {}", id);
         Optional<NoticiaDTO> noticiaDTO = noticiaService.findOne(id);
@@ -169,6 +173,7 @@ public class NoticiaResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority(\""+ AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<Void> deleteNoticia(@PathVariable("id") String id) {
         LOG.debug("REST request to delete Noticia : {}", id);
         noticiaService.delete(id);
