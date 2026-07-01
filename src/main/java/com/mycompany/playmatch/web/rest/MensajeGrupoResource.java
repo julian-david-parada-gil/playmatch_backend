@@ -1,6 +1,7 @@
 package com.mycompany.playmatch.web.rest;
 
 import com.mycompany.playmatch.repository.MensajeGrupoRepository;
+import com.mycompany.playmatch.security.AuthoritiesConstants;
 import com.mycompany.playmatch.service.MensajeGrupoService;
 import com.mycompany.playmatch.service.dto.MensajeGrupoDTO;
 import com.mycompany.playmatch.web.rest.errors.BadRequestAlertException;
@@ -18,6 +19,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
@@ -55,7 +57,7 @@ public class MensajeGrupoResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("")
-    @PreAuthorize("hasAuthority(\""+ AuthoritiesConstants.ADMIN + "\") or hasAuthority(\"" + AuthoritiesConstants.ORGANIZADOR + "\") or hasAuthority(\"" + AuthoritiesConstants.PARTICIPANTE + "\")")
+    @PreAuthorize("hasAuthority(\""+ AuthoritiesConstants.ADMIN + "\") or hasAuthority(\"" + AuthoritiesConstants.ORGANIZADOR + "\") or hasAuthority(\"" + AuthoritiesConstants.USER + "\")")
     public ResponseEntity<MensajeGrupoDTO> createMensajeGrupo(@Valid @RequestBody MensajeGrupoDTO mensajeGrupoDTO)
         throws URISyntaxException {
         LOG.debug("REST request to save MensajeGrupo : {}", mensajeGrupoDTO);
@@ -79,7 +81,7 @@ public class MensajeGrupoResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/{id}")
-    @PreAuthorize("hasAuthority(\""+ AuthoritiesConstants.ADMIN + "\") or hasAuthority(\"" + AuthoritiesConstants.ORGANIZADOR + "\") or hasAuthority(\"" + AuthoritiesConstants.PARTICIPANTE + "\")")
+    @PreAuthorize("hasAuthority(\""+ AuthoritiesConstants.ADMIN + "\") or hasAuthority(\"" + AuthoritiesConstants.ORGANIZADOR + "\") or hasAuthority(\"" + AuthoritiesConstants.USER + "\")")
     public ResponseEntity<MensajeGrupoDTO> updateMensajeGrupo(
         @PathVariable(value = "id", required = false) final String id,
         @Valid @RequestBody MensajeGrupoDTO mensajeGrupoDTO
@@ -146,7 +148,7 @@ public class MensajeGrupoResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of Mensaje Grupos in body.
      */
     @GetMapping("")
-    @PreAuthorize("hasAuthority(\""+ AuthoritiesConstants.ADMIN + "\") or hasAuthority(\"" + AuthoritiesConstants.ORGANIZADOR + "\") or hasAuthority(\"" + AuthoritiesConstants.PARTICIPANTE + "\")")
+    @PreAuthorize("hasAuthority(\""+ AuthoritiesConstants.ADMIN + "\") or hasAuthority(\"" + AuthoritiesConstants.ORGANIZADOR + "\") or hasAuthority(\"" + AuthoritiesConstants.USER + "\")")
     public ResponseEntity<List<MensajeGrupoDTO>> getAllMensajeGrupos(
         @org.springdoc.core.annotations.ParameterObject Pageable pageable,
         @RequestParam(name = "eagerload", required = false, defaultValue = "true") boolean eagerload
@@ -169,7 +171,7 @@ public class MensajeGrupoResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the mensajeGrupoDTO, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/{id}")
-    @PreAuthorize("hasAuthority(\""+ AuthoritiesConstants.ADMIN + "\") or hasAuthority(\"" + AuthoritiesConstants.ORGANIZADOR + "\") or hasAuthority(\"" + AuthoritiesConstants.PARTICIPANTE + "\")")
+    @PreAuthorize("hasAuthority(\""+ AuthoritiesConstants.ADMIN + "\") or hasAuthority(\"" + AuthoritiesConstants.ORGANIZADOR + "\") or hasAuthority(\"" + AuthoritiesConstants.USER + "\")")
     public ResponseEntity<MensajeGrupoDTO> getMensajeGrupo(@PathVariable("id") String id) {
         LOG.debug("REST request to get MensajeGrupo : {}", id);
         Optional<MensajeGrupoDTO> mensajeGrupoDTO = mensajeGrupoService.findOne(id);

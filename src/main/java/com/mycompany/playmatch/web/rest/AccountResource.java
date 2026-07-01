@@ -2,6 +2,7 @@ package com.mycompany.playmatch.web.rest;
 
 import com.mycompany.playmatch.domain.User;
 import com.mycompany.playmatch.repository.UserRepository;
+import com.mycompany.playmatch.security.AuthoritiesConstants;
 import com.mycompany.playmatch.security.SecurityUtils;
 import com.mycompany.playmatch.service.MailService;
 import com.mycompany.playmatch.service.UserService;
@@ -16,6 +17,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 /**
