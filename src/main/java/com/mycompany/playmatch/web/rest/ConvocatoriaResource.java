@@ -1,6 +1,7 @@
 package com.mycompany.playmatch.web.rest;
 
 import com.mycompany.playmatch.repository.ConvocatoriaRepository;
+import com.mycompany.playmatch.security.AuthoritiesConstants;
 import com.mycompany.playmatch.service.ConvocatoriaService;
 import com.mycompany.playmatch.service.dto.ConvocatoriaDTO;
 import com.mycompany.playmatch.web.rest.errors.BadRequestAlertException;
@@ -18,6 +19,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
@@ -146,7 +148,7 @@ public class ConvocatoriaResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of Convocatorias in body.
      */
     @GetMapping("")
-    @PreAuthorize("hasAuthority(\""+ AuthoritiesConstants.ADMIN + "\") or hasAuthority(\"" + AuthoritiesConstants.ORGANIZADOR + "\") or hasAuthority(\"" + AuthoritiesConstants.PARTICIPANTE + "\")")
+    @PreAuthorize("hasAuthority(\""+ AuthoritiesConstants.ADMIN + "\") or hasAuthority(\"" + AuthoritiesConstants.ORGANIZADOR + "\") or hasAuthority(\"" + AuthoritiesConstants.USER + "\")")
     public ResponseEntity<List<ConvocatoriaDTO>> getAllConvocatorias(
         @org.springdoc.core.annotations.ParameterObject Pageable pageable,
         @RequestParam(name = "eagerload", required = false, defaultValue = "true") boolean eagerload

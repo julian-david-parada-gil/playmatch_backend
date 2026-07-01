@@ -1,6 +1,7 @@
 package com.mycompany.playmatch.web.rest;
 
 import com.mycompany.playmatch.repository.EncuestaRepository;
+import com.mycompany.playmatch.security.AuthoritiesConstants;
 import com.mycompany.playmatch.service.EncuestaService;
 import com.mycompany.playmatch.service.dto.EncuestaDTO;
 import com.mycompany.playmatch.web.rest.errors.BadRequestAlertException;
@@ -18,6 +19,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
