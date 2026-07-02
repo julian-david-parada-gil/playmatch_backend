@@ -1,6 +1,7 @@
 package com.mycompany.playmatch.web.rest;
 
 import com.mycompany.playmatch.repository.ConvocatoriaRepository;
+import com.mycompany.playmatch.security.AuthoritiesConstants;
 import com.mycompany.playmatch.service.ConvocatoriaService;
 import com.mycompany.playmatch.service.dto.ConvocatoriaDTO;
 import com.mycompany.playmatch.web.rest.errors.BadRequestAlertException;
@@ -18,6 +19,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
@@ -55,6 +57,7 @@ public class ConvocatoriaResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("")
+    @PreAuthorize("hasAuthority(\""+ AuthoritiesConstants.ADMIN + "\") or hasAuthority(\"" + AuthoritiesConstants.ORGANIZADOR + "\")")
     public ResponseEntity<ConvocatoriaDTO> createConvocatoria(@Valid @RequestBody ConvocatoriaDTO convocatoriaDTO)
         throws URISyntaxException {
         LOG.debug("REST request to save Convocatoria : {}", convocatoriaDTO);
@@ -78,6 +81,7 @@ public class ConvocatoriaResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority(\""+ AuthoritiesConstants.ADMIN + "\") or hasAuthority(\"" + AuthoritiesConstants.ORGANIZADOR + "\")")
     public ResponseEntity<ConvocatoriaDTO> updateConvocatoria(
         @PathVariable(value = "id", required = false) final String id,
         @Valid @RequestBody ConvocatoriaDTO convocatoriaDTO
@@ -144,6 +148,7 @@ public class ConvocatoriaResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of Convocatorias in body.
      */
     @GetMapping("")
+    @PreAuthorize("hasAuthority(\""+ AuthoritiesConstants.ADMIN + "\") or hasAuthority(\"" + AuthoritiesConstants.ORGANIZADOR + "\") or hasAuthority(\"" + AuthoritiesConstants.USER + "\")")
     public ResponseEntity<List<ConvocatoriaDTO>> getAllConvocatorias(
         @org.springdoc.core.annotations.ParameterObject Pageable pageable,
         @RequestParam(name = "eagerload", required = false, defaultValue = "true") boolean eagerload
@@ -166,6 +171,7 @@ public class ConvocatoriaResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the convocatoriaDTO, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority(\""+ AuthoritiesConstants.ADMIN + "\") or hasAuthority(\"" + AuthoritiesConstants.ORGANIZADOR + "\")")
     public ResponseEntity<ConvocatoriaDTO> getConvocatoria(@PathVariable("id") String id) {
         LOG.debug("REST request to get Convocatoria : {}", id);
         Optional<ConvocatoriaDTO> convocatoriaDTO = convocatoriaService.findOne(id);
@@ -179,6 +185,7 @@ public class ConvocatoriaResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority(\""+ AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<Void> deleteConvocatoria(@PathVariable("id") String id) {
         LOG.debug("REST request to delete Convocatoria : {}", id);
         convocatoriaService.delete(id);

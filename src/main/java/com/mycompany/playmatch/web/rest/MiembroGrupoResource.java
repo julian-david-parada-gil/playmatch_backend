@@ -1,6 +1,7 @@
 package com.mycompany.playmatch.web.rest;
 
 import com.mycompany.playmatch.repository.MiembroGrupoRepository;
+import com.mycompany.playmatch.security.AuthoritiesConstants;
 import com.mycompany.playmatch.service.MiembroGrupoService;
 import com.mycompany.playmatch.service.dto.MiembroGrupoDTO;
 import com.mycompany.playmatch.web.rest.errors.BadRequestAlertException;
@@ -18,6 +19,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
@@ -55,6 +57,7 @@ public class MiembroGrupoResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("")
+    @PreAuthorize("hasAuthority(\""+ AuthoritiesConstants.ADMIN + "\") or hasAuthority(\"" + AuthoritiesConstants.ORGANIZADOR + "\")")
     public ResponseEntity<MiembroGrupoDTO> createMiembroGrupo(@Valid @RequestBody MiembroGrupoDTO miembroGrupoDTO)
         throws URISyntaxException {
         LOG.debug("REST request to save MiembroGrupo : {}", miembroGrupoDTO);
@@ -78,6 +81,7 @@ public class MiembroGrupoResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority(\""+ AuthoritiesConstants.ADMIN + "\") or hasAuthority(\"" + AuthoritiesConstants.ORGANIZADOR + "\")")
     public ResponseEntity<MiembroGrupoDTO> updateMiembroGrupo(
         @PathVariable(value = "id", required = false) final String id,
         @Valid @RequestBody MiembroGrupoDTO miembroGrupoDTO
@@ -144,6 +148,7 @@ public class MiembroGrupoResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of Miembro Grupos in body.
      */
     @GetMapping("")
+    @PreAuthorize("hasAuthority(\""+ AuthoritiesConstants.ADMIN + "\") or hasAuthority(\"" + AuthoritiesConstants.ORGANIZADOR + "\")")
     public ResponseEntity<List<MiembroGrupoDTO>> getAllMiembroGrupos(
         @org.springdoc.core.annotations.ParameterObject Pageable pageable,
         @RequestParam(name = "eagerload", required = false, defaultValue = "true") boolean eagerload
@@ -166,6 +171,7 @@ public class MiembroGrupoResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the miembroGrupoDTO, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority(\""+ AuthoritiesConstants.ADMIN + "\") or hasAuthority(\"" + AuthoritiesConstants.ORGANIZADOR + "\")")
     public ResponseEntity<MiembroGrupoDTO> getMiembroGrupo(@PathVariable("id") String id) {
         LOG.debug("REST request to get MiembroGrupo : {}", id);
         Optional<MiembroGrupoDTO> miembroGrupoDTO = miembroGrupoService.findOne(id);
@@ -179,6 +185,7 @@ public class MiembroGrupoResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority(\""+ AuthoritiesConstants.ADMIN + "\") or hasAuthority(\"" + AuthoritiesConstants.ORGANIZADOR + "\")")
     public ResponseEntity<Void> deleteMiembroGrupo(@PathVariable("id") String id) {
         LOG.debug("REST request to delete MiembroGrupo : {}", id);
         miembroGrupoService.delete(id);

@@ -1,6 +1,7 @@
 package com.mycompany.playmatch.web.rest;
 
 import com.mycompany.playmatch.repository.TablaPosicionRepository;
+import com.mycompany.playmatch.security.AuthoritiesConstants;
 import com.mycompany.playmatch.service.TablaPosicionService;
 import com.mycompany.playmatch.service.dto.TablaPosicionDTO;
 import com.mycompany.playmatch.web.rest.errors.BadRequestAlertException;
@@ -18,6 +19,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
@@ -55,6 +57,7 @@ public class TablaPosicionResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("")
+    @PreAuthorize("hasAuthority(\""+ AuthoritiesConstants.ADMIN + "\") or hasAuthority(\"" + AuthoritiesConstants.ORGANIZADOR + "\")")
     public ResponseEntity<TablaPosicionDTO> createTablaPosicion(@Valid @RequestBody TablaPosicionDTO tablaPosicionDTO)
         throws URISyntaxException {
         LOG.debug("REST request to save TablaPosicion : {}", tablaPosicionDTO);
@@ -78,6 +81,7 @@ public class TablaPosicionResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority(\""+ AuthoritiesConstants.ADMIN + "\") or hasAuthority(\"" + AuthoritiesConstants.ORGANIZADOR + "\")")
     public ResponseEntity<TablaPosicionDTO> updateTablaPosicion(
         @PathVariable(value = "id", required = false) final String id,
         @Valid @RequestBody TablaPosicionDTO tablaPosicionDTO
@@ -112,6 +116,7 @@ public class TablaPosicionResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PatchMapping(value = "/{id}", consumes = { "application/json", "application/merge-patch+json" })
+    @PreAuthorize("hasAuthority(\""+ AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<TablaPosicionDTO> partialUpdateTablaPosicion(
         @PathVariable(value = "id", required = false) final String id,
         @NotNull @RequestBody TablaPosicionDTO tablaPosicionDTO
@@ -144,6 +149,7 @@ public class TablaPosicionResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of Tabla Posicions in body.
      */
     @GetMapping("")
+    @PreAuthorize("hasAuthority(\""+ AuthoritiesConstants.ADMIN + "\") or hasAuthority(\"" + AuthoritiesConstants.ORGANIZADOR + "\") or hasAuthority(\"" + AuthoritiesConstants.USER + "\")")
     public ResponseEntity<List<TablaPosicionDTO>> getAllTablaPosicions(
         @org.springdoc.core.annotations.ParameterObject Pageable pageable,
         @RequestParam(name = "eagerload", required = false, defaultValue = "true") boolean eagerload
@@ -166,6 +172,7 @@ public class TablaPosicionResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the tablaPosicionDTO, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority(\""+ AuthoritiesConstants.ADMIN + "\") or hasAuthority(\"" + AuthoritiesConstants.ORGANIZADOR + "\") or hasAuthority(\"" + AuthoritiesConstants.USER + "\")")
     public ResponseEntity<TablaPosicionDTO> getTablaPosicion(@PathVariable("id") String id) {
         LOG.debug("REST request to get TablaPosicion : {}", id);
         Optional<TablaPosicionDTO> tablaPosicionDTO = tablaPosicionService.findOne(id);
@@ -179,6 +186,7 @@ public class TablaPosicionResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority(\""+ AuthoritiesConstants.ADMIN + "\") or hasAuthority(\"" + AuthoritiesConstants.ORGANIZADOR + "\")")
     public ResponseEntity<Void> deleteTablaPosicion(@PathVariable("id") String id) {
         LOG.debug("REST request to delete TablaPosicion : {}", id);
         tablaPosicionService.delete(id);

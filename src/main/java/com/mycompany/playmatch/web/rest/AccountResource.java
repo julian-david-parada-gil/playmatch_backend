@@ -2,6 +2,7 @@ package com.mycompany.playmatch.web.rest;
 
 import com.mycompany.playmatch.domain.User;
 import com.mycompany.playmatch.repository.UserRepository;
+import com.mycompany.playmatch.security.AuthoritiesConstants;
 import com.mycompany.playmatch.security.SecurityUtils;
 import com.mycompany.playmatch.service.MailService;
 import com.mycompany.playmatch.service.UserService;
@@ -16,6 +17,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -85,6 +87,7 @@ public class AccountResource {
      * @throws RuntimeException {@code 500 (Internal Server Error)} if the user couldn't be returned.
      */
     @GetMapping("/account")
+    @PreAuthorize("hasAuthority(\""+ AuthoritiesConstants.ADMIN + "\")")
     public AdminUserDTO getAccount() {
         return userService
             .getUserWithAuthorities()
@@ -100,6 +103,7 @@ public class AccountResource {
      * @throws RuntimeException {@code 500 (Internal Server Error)} if the user login wasn't found.
      */
     @PostMapping("/account")
+    @PreAuthorize("hasAuthority(\""+ AuthoritiesConstants.ADMIN + "\")")
     public void saveAccount(@Valid @RequestBody AdminUserDTO userDTO) {
         String userLogin = SecurityUtils.getCurrentUserLogin().orElseThrow(() ->
             new AccountResourceException("Current user login not found")
@@ -113,8 +117,6 @@ public class AccountResource {
             throw new AccountResourceException("User could not be found");
         }
         userService.updateUser(
-            userDTO.getFirstName(),
-            userDTO.getLastName(),
             userDTO.getEmail(),
             userDTO.getLangKey(),
             userDTO.getImageUrl()
@@ -128,6 +130,7 @@ public class AccountResource {
      * @throws InvalidPasswordException {@code 400 (Bad Request)} if the new password is incorrect.
      */
     @PostMapping(path = "/account/change-password")
+   @PreAuthorize("hasAuthority(\""+ AuthoritiesConstants.ADMIN + "\")")
     public void changePassword(@RequestBody PasswordChangeDTO passwordChangeDto) {
         if (isPasswordLengthInvalid(passwordChangeDto.getNewPassword())) {
             throw new InvalidPasswordException();

@@ -1,6 +1,7 @@
 package com.mycompany.playmatch.web.rest;
 
 import com.mycompany.playmatch.repository.NotificacionRepository;
+import com.mycompany.playmatch.security.AuthoritiesConstants;
 import com.mycompany.playmatch.service.NotificacionService;
 import com.mycompany.playmatch.service.dto.NotificacionDTO;
 import com.mycompany.playmatch.web.rest.errors.BadRequestAlertException;
@@ -18,6 +19,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
@@ -55,6 +57,7 @@ public class NotificacionResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("")
+    @PreAuthorize("hasAuthority(\""+ AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<NotificacionDTO> createNotificacion(@Valid @RequestBody NotificacionDTO notificacionDTO)
         throws URISyntaxException {
         LOG.debug("REST request to save Notificacion : {}", notificacionDTO);
@@ -78,6 +81,7 @@ public class NotificacionResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority(\""+ AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<NotificacionDTO> updateNotificacion(
         @PathVariable(value = "id", required = false) final String id,
         @Valid @RequestBody NotificacionDTO notificacionDTO
@@ -143,6 +147,7 @@ public class NotificacionResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of Notificacions in body.
      */
     @GetMapping("")
+    @PreAuthorize("hasAuthority(\""+ AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<List<NotificacionDTO>> getAllNotificacions(@org.springdoc.core.annotations.ParameterObject Pageable pageable) {
         LOG.debug("REST request to get a page of Notificacions");
         Page<NotificacionDTO> page = notificacionService.findAll(pageable);
@@ -157,6 +162,7 @@ public class NotificacionResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the notificacionDTO, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority(\""+ AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<NotificacionDTO> getNotificacion(@PathVariable("id") String id) {
         LOG.debug("REST request to get Notificacion : {}", id);
         Optional<NotificacionDTO> notificacionDTO = notificacionService.findOne(id);
@@ -170,6 +176,7 @@ public class NotificacionResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority(\""+ AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<Void> deleteNotificacion(@PathVariable("id") String id) {
         LOG.debug("REST request to delete Notificacion : {}", id);
         notificacionService.delete(id);
